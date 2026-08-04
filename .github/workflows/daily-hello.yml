@@ -1,0 +1,61 @@
+name: Daily Hello
+
+on:
+  schedule:
+    # GitHub Actions cron uses UTC. 00:00 UTC is 09:00 KST.
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-daily-quote:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Update today's quote
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import random
+
+          readme_path = Path("README.md")
+          quotes_path = Path("quotes.txt")
+          start_marker = "<!-- DAILY_QUOTE:START -->"
+          end_marker = "<!-- DAILY_QUOTE:END -->"
+
+          quotes = [line.strip() for line in quotes_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+          if not quotes:
+              raise SystemExit("quotes.txt에 사용할 문구가 없습니다.")
+
+          readme = readme_path.read_text(encoding="utf-8")
+          if readme.count(start_marker) != 1 or readme.count(end_marker) != 1:
+              raise SystemExit("README.md에서 오늘의 한마디 마커 한 쌍을 찾을 수 없습니다.")
+
+          before, remainder = readme.split(start_marker, 1)
+          current_block, after = remainder.split(end_marker, 1)
+          current_quote = current_block.strip().removeprefix(">").strip()
+          candidates = [quote for quote in quotes if quote != current_quote] or quotes
+          quote = random.choice(candidates)
+          updated = f"{before}{start_marker}\n> {quote}\n{end_marker}{after}"
+          readme_path.write_text(updated, encoding="utf-8")
+          PY
+
+      - name: Commit and push changes
+        shell: bash
+        run: |
+          if git diff --quiet -- README.md; then
+            echo "오늘의 한마디가 이미 선택된 문구와 같아 변경 사항이 없습니다."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: 오늘의 한마디 갱신"
+          git push
