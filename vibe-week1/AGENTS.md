@@ -1,44 +1,218 @@
-# Repository Guidelines
+# AGENTS.md
 
-## Project Structure & Module Organization
+이 문서는 이 저장소 전체에서 작업하는 AI 에이전트가 따라야 할 지침입니다.
 
-This repository is currently empty. As implementation is added, keep production code under `src/`, tests under `tests/`, and non-code resources under `assets/`. Group files by feature or domain rather than by file type when the project grows. Keep generated output in `build/`, `dist/`, or another ignored directory; do not commit generated artifacts.
+## 언어
 
-Example layout:
+- 항상 한국어로 답변합니다.
+- 진행 상황, 변경 내용, 오류 원인, 검증 결과도 한국어로 설명합니다.
+- 코드 주석과 프로젝트 문서는 원칙적으로 한국어로 작성합니다.
+- 명령어, API 이름, 라이브러리 이름, 코드 식별자는 원문을 유지합니다.
+
+## 스타일
+
+- 설명은 핵심 결과부터 간결하게 작성합니다.
+- 작업 과정은 필요한 경우 단계별로 안내합니다.
+- 전문 용어는 최소화하고, 필요하면 짧게 뜻을 설명합니다.
+- 요구 사항이 모호하지만 안전하게 진행할 수 있으면 합리적인 가정을 밝히고 작업합니다.
+- 결과가 크게 달라지는 선택이 필요하면 사용자에게 먼저 확인합니다.
+- 위험하거나 복구하기 어려운 명령을 실행하기 전에는 반드시 사용자에게 확인받습니다.
+
+## Overview
+
+바이브 코딩 학생의 출결, 성적, 과제를 통합 관리하기 위한 웹사이트입니다.
+
+주요 사용자는 다음과 같습니다.
+
+- 관리자: 학생, 수업, 출결, 성적, 과제 정보를 전체 관리합니다.
+- 강사: 담당 학생의 출결을 기록하고 성적과 과제를 관리합니다.
+- 학생: 자신의 출결 현황, 성적, 과제 및 제출 상태를 확인합니다.
+
+핵심 목표는 다음과 같습니다.
+
+- 학생별 출결 현황을 정확하고 빠르게 기록합니다.
+- 평가 항목별 성적을 일관된 기준으로 관리합니다.
+- 과제 등록부터 제출 및 평가까지의 상태를 추적합니다.
+- 역할에 따라 접근 가능한 정보와 기능을 구분합니다.
+- 중요한 변경 이력을 추적할 수 있도록 설계합니다.
+
+## 현재 프로젝트 상태
+
+- 현재 저장소에는 구체적인 애플리케이션 코드와 기술 스택이 구성되어 있지 않습니다.
+- 프레임워크, 패키지 관리자, 데이터베이스, 테스트 도구가 확정되기 전에는 임의로 도입하지 않습니다.
+- 기술을 새로 선택해야 할 경우 선택 이유와 대안을 사용자에게 설명합니다.
+- 실제 코드와 설정이 추가되면 이 문서보다 저장소의 기존 구조와 설정을 우선합니다.
+
+## Commands
+
+현재 실행 명령은 아직 구성되지 않았습니다. 기술 스택을 도입하면 아래 항목을 실제 명령으로 교체하고 `README.md`에도 동일하게 반영합니다.
+
+- Build: 미정
+- Dev: 미정
+- Test: 미정
+- Lint: 미정
+
+명령을 구성할 때는 다음 원칙을 따릅니다.
+
+- 저장소 루트에서 실행할 수 있어야 합니다.
+- 개발자 개인의 전역 설치 환경에 의존하지 않아야 합니다.
+- 실패하면 0이 아닌 종료 코드를 반환해야 합니다.
+- 의존성 설치와 실행 방법을 `README.md`에 기록해야 합니다.
+- 잠금 파일을 지원하는 패키지 관리자를 사용하면 잠금 파일도 함께 관리합니다.
+
+권장 명령 이름은 다음과 같습니다.
 
 ```text
-src/<feature>/
-tests/<feature>/
-assets/
+setup   개발 환경과 의존성 설치
+dev     로컬 개발 서버 실행
+build   배포용 결과물 생성
+test    전체 자동화 테스트 실행
+lint    포맷 및 정적 분석 검사
 ```
 
-Document any intentional departure from this layout in the root `README.md`.
+## Architecture
 
-## Build, Test, and Development Commands
+기능은 출결, 성적, 과제 도메인을 중심으로 분리합니다. 인증과 권한, 학생 정보처럼 여러 기능에서 사용하는 영역은 공통 도메인으로 관리합니다.
 
-No build tool, package manager, or test runner is configured yet. When adding one, expose a small, predictable command set and document it in `README.md`. Prefer conventional entry points such as:
+### 출결 관리
 
-- `make setup` — install or prepare development dependencies.
-- `make test` — run the complete automated test suite.
-- `make lint` — check formatting and static-analysis rules.
-- `make run` — start the project locally.
+- 수업 날짜와 학생을 기준으로 출결을 기록합니다.
+- 기본 출결 상태는 출석, 지각, 결석, 조퇴로 구분합니다.
+- 출결 상태 변경 시 변경자, 변경 시각, 변경 사유를 추적할 수 있어야 합니다.
+- 동일 학생과 동일 수업에 중복된 출결 기록이 생성되지 않도록 합니다.
+- 월별 및 학생별 출결 현황을 조회할 수 있도록 구성합니다.
 
-Commands should be reproducible from the repository root and return a nonzero status on failure.
+### 성적 관리
 
-## Coding Style & Naming Conventions
+- 시험, 과제, 참여도 등 평가 항목을 구분합니다.
+- 평가 항목별 만점, 점수, 반영 비율을 관리합니다.
+- 총점과 최종 성적의 계산 규칙을 명확하게 분리합니다.
+- 허용 범위를 벗어난 점수 입력을 검증합니다.
+- 성적 수정 이력을 추적하고 학생에게 공개할 시점을 구분합니다.
 
-Use the standard formatter and linter for the chosen language, checked into project configuration where possible. Do not mix formatting-only changes with functional changes. Use descriptive names: `snake_case` for files in Python projects, `kebab-case` for web assets, and the language's established conventions for symbols and types. Prefer small modules with explicit responsibilities and comments that explain intent, not obvious mechanics.
+### 과제 관리
 
-## Testing Guidelines
+- 과제 제목, 설명, 마감일, 배점, 첨부 자료를 관리합니다.
+- 학생별 제출 여부와 제출 시각을 추적합니다.
+- 미제출, 제출 완료, 지각 제출, 평가 완료 상태를 구분합니다.
+- 제출물 평가 결과와 피드백을 학생이 확인할 수 있도록 합니다.
+- 마감일과 지각 제출 판단은 일관된 시간대 기준을 사용합니다.
 
-Add tests with every behavior change and bug fix. Mirror source organization beneath `tests/`; name tests after the behavior they verify (for example, `test_rejects_expired_token`). Keep tests deterministic and avoid relying on network access, wall-clock timing, or developer-specific state. Once a framework is selected, record coverage expectations and the exact test command here.
+### 인증 및 권한
 
-## Commit & Pull Request Guidelines
+- 관리자, 강사, 학생 역할을 구분합니다.
+- 화면에서 버튼을 숨기는 것만으로 권한을 처리하지 않고 서버에서도 검증합니다.
+- 학생은 원칙적으로 자신의 정보만 조회할 수 있어야 합니다.
+- 강사는 담당 수업과 학생 범위에서만 정보를 변경할 수 있어야 합니다.
+- 개인정보와 성적 정보 접근은 최소 권한 원칙을 적용합니다.
 
-There is no Git history from which to infer an existing convention. Use concise, imperative commit subjects, optionally following Conventional Commits (for example, `feat: add session validation` or `fix: handle empty input`). Keep each commit focused.
+### 데이터 원칙
 
-Pull requests should explain the motivation and implementation, list verification performed, and link relevant issues. Include screenshots or recordings for visible UI changes and call out configuration changes, migrations, or follow-up work.
+- 학생, 수업, 출결, 평가 항목, 성적, 과제, 제출물은 고유 식별자를 사용합니다.
+- 날짜와 시각은 저장 기준과 표시 시간대를 명확히 구분합니다.
+- 삭제로 인해 이력이 사라지면 안 되는 데이터는 상태값을 이용한 비활성화를 우선합니다.
+- 합계나 평균처럼 계산 가능한 값은 중복 저장보다 계산 규칙의 일관성을 우선합니다.
 
-## Security & Configuration
+## 권장 프로젝트 구조
 
-Never commit credentials, tokens, or local environment files. Provide sanitized examples such as `.env.example`, and document every required variable without including real secret values.
+기술 스택이 확정되지 않은 동안에는 다음 구조를 기본 방향으로 사용합니다.
+
+```text
+src/
+├── attendance/    # 출결 관리
+├── grades/        # 성적 관리
+├── assignments/   # 과제 및 제출 관리
+├── users/         # 학생, 강사, 관리자
+└── shared/        # 공통 기능
+tests/             # 자동화 테스트
+assets/            # 이미지와 정적 리소스
+```
+
+- 파일 종류보다 기능 또는 도메인을 기준으로 묶습니다.
+- 테스트 구조는 가능한 한 실제 코드 구조를 반영합니다.
+- 빌드 결과물과 테스트 결과물은 Git에서 제외합니다.
+- 빈 디렉터리나 사용 여부가 정해지지 않은 파일을 미리 만들지 않습니다.
+
+## 작업 절차
+
+1. 사용자 요청과 완료 조건을 확인합니다.
+2. 관련 문서, 코드, 설정, 테스트를 읽습니다.
+3. `git status`로 기존 변경 사항을 확인합니다.
+4. 요청 범위에 필요한 최소 변경을 구현합니다.
+5. 관련 테스트, 린트, 빌드를 실행합니다.
+6. `git diff`로 요청 밖의 변경이 없는지 검토합니다.
+7. 변경 내용, 검증 결과, 남은 제한 사항을 사용자에게 보고합니다.
+
+- 커밋되지 않은 기존 변경은 사용자 소유로 간주하고 보존합니다.
+- 요청과 관계없는 파일을 임의로 수정하거나 정리하지 않습니다.
+- 기존 구현 방식이 있다면 새로운 패턴보다 기존 관례를 우선합니다.
+
+## 구현 원칙
+
+- 요청한 범위 안에서 가장 작고 명확한 변경으로 해결합니다.
+- 함수, 모듈, 컴포넌트는 한 가지 책임에 집중합니다.
+- 이름만으로 의도를 이해할 수 있도록 명확한 식별자를 사용합니다.
+- 입력값, 빈 값, 경계값, 실패 경로를 명시적으로 처리합니다.
+- 오류를 숨기거나 예외를 아무 처리 없이 무시하지 않습니다.
+- 기존 공개 동작을 변경하면 호환성 영향을 확인하고 알립니다.
+- 기능 변경과 무관한 대규모 포맷 변경은 피합니다.
+- 실제 반복과 유지보수 이점이 확인되기 전에는 과도하게 추상화하지 않습니다.
+
+## 테스트 원칙
+
+- 기능 추가와 동작 변경에는 관련 테스트를 작성합니다.
+- 버그 수정에는 가능하면 회귀 테스트를 추가합니다.
+- 정상 동작뿐 아니라 잘못된 입력과 경계 조건도 검증합니다.
+- 테스트는 실행 순서, 실제 네트워크, 현재 시각, 개인 로컬 환경에 의존하지 않도록 작성합니다.
+- 출결 상태 변경, 성적 계산, 과제 마감 판단은 핵심 비즈니스 규칙으로 우선 테스트합니다.
+- 테스트를 실행하지 못하면 그 이유와 실행해야 할 정확한 명령을 알립니다.
+
+## 보안 및 개인정보
+
+- 비밀번호, API 키, 액세스 토큰, 인증서, 실제 개인정보를 저장소에 커밋하지 않습니다.
+- 비밀값은 환경 변수로 관리하고 실제 값이 없는 `.env.example`을 제공합니다.
+- 로그와 오류 메시지에 학생 개인정보나 인증 정보가 노출되지 않도록 합니다.
+- 모든 사용자 입력을 검증하고 사용 위치에 맞게 이스케이프합니다.
+- 파일 경로, 명령어, SQL, HTML을 외부 입력으로 구성할 때 주입 공격을 방지합니다.
+- 출결과 성적 변경 기능은 인증과 권한을 서버 측에서 확인합니다.
+
+## Git 규칙
+
+- 사용자가 명시적으로 요청하지 않으면 커밋, 푸시, 브랜치 생성, 태그 생성은 하지 않습니다.
+- 커밋은 하나의 목적에 집중합니다.
+- 커밋 제목은 짧고 명확한 명령형으로 작성합니다.
+- 가능하면 Conventional Commits 형식을 사용합니다.
+
+예시:
+
+```text
+feat: 학생 출결 등록 기능 추가
+fix: 성적 평균 계산 오류 수정
+docs: 개발 서버 실행 방법 추가
+test: 과제 마감일 검증 테스트 추가
+```
+
+- `git reset --hard`, 강제 푸시, 커밋 기록 변경은 사용자 확인 없이 실행하지 않습니다.
+- 다른 사용자의 변경을 되돌리거나 덮어쓰지 않습니다.
+
+## 위험한 작업
+
+다음 작업은 대상과 영향을 확인한 후 사용자 승인을 받아야 합니다.
+
+- 파일이나 디렉터리의 대량 삭제
+- Git 기록 변경 또는 강제 푸시
+- 데이터베이스 초기화와 운영 데이터 수정
+- 마이그레이션 롤백
+- 운영 환경 배포
+- 복구하기 어려운 설정 덮어쓰기
+
+가능하면 삭제보다 백업, 비활성화, 휴지통 이동처럼 복구 가능한 방식을 우선합니다.
+
+## 완료 기준
+
+- 요청한 기능이나 문서 변경이 반영되었습니다.
+- 관련 테스트, 린트, 빌드가 통과했습니다.
+- 문서와 실제 구조 및 명령이 일치합니다.
+- 비밀값, 개인 경로, 불필요한 생성물이 포함되지 않았습니다.
+- 요청과 관련 없는 변경이 없습니다.
+- 최종 답변에 변경 내용, 검증 결과, 남은 제한 사항을 포함했습니다.
