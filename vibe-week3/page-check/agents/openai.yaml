@@ -1,0 +1,4 @@
+interface:
+  display_name: "Page Check"
+  short_description: "HTML 페이지의 필수 품질 항목 5가지를 점검합니다"
+  default_prompt: "Use $page-check to inspect this HTML page and classify the findings."
