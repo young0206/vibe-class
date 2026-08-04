@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      color: #51495f;
+      font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+      background: linear-gradient(135deg, #fff1f5 0%, #f1edff 50%, #e8f8f5 100%);
+    }
+
+    .profile-card {
+      width: min(100%, 680px);
+      padding: 42px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 32px;
+      box-shadow: 0 20px 50px rgba(121, 101, 145, 0.14);
+      backdrop-filter: blur(10px);
+    }
+
+    .profile-image {
+      width: 170px;
+      height: 170px;
+      object-fit: cover;
+      border: 8px solid #fff7d6;
+      border-radius: 50%;
+      box-shadow: 0 10px 24px rgba(113, 96, 128, 0.16);
+    }
+
+    h1 {
+      margin: 24px 0 8px;
+      color: #705d7d;
+      font-size: 2.4rem;
+    }
+
+    .intro {
+      margin: 0 0 30px;
+      color: #877791;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .favorites {
+      padding: 26px 30px;
+      text-align: left;
+      background: #f7f2ff;
+      border-radius: 24px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: #705d7d;
+      font-size: 1.25rem;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+      list-style: none;
+    }
+
+    li {
+      padding: 14px 18px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(121, 101, 145, 0.07);
+    }
+
+    li:nth-child(1) { border-left: 6px solid #ffc9d8; }
+    li:nth-child(2) { border-left: 6px solid #c9c2f5; }
+    li:nth-child(3) { border-left: 6px solid #afe3d5; }
+  </style>
+</head>
+<body>
+  <main class="profile-card">
+    <img class="profile-image" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&amp;fit=crop&amp;w=400&amp;q=80">
+    <h1>김하늘</h1>
+    <p class="intro">작은 호기심을 모아 즐거운 일상을 만드는 사람입니다.</p>
+
+    <section class="favorites" aria-labelledby="favorites-title">
+      <h2 id="favorites-title">내가 좋아하는 것</h2>
+      <ul>
+        <li>📚 포근한 카페에서 책 읽기</li>
+        <li>🎧 좋아하는 음악으로 플레이리스트 만들기</li>
+        <li>🌿 천천히 걸으며 새로운 풍경 발견하기</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
