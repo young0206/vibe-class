@@ -1,0 +1,4 @@
+interface:
+  display_name: "Payment Feature"
+  short_description: "결제 기능을 안전하게 구현하고 테스트하는 워크플로우"
+  default_prompt: "Use $payment-feature to implement this payment feature: describe the feature here."
