@@ -84,6 +84,54 @@
     li:nth-child(1) { border-left: 6px solid #ffc9d8; }
     li:nth-child(2) { border-left: 6px solid #c9c2f5; }
     li:nth-child(3) { border-left: 6px solid #afe3d5; }
+
+    .mood {
+      margin-top: 20px;
+      padding: 26px 30px;
+      background: #fff7fa;
+      border-radius: 24px;
+    }
+
+    .mood-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .mood-button {
+      width: 64px;
+      height: 64px;
+      padding: 0;
+      font-size: 1.8rem;
+      cursor: pointer;
+      background: #fff;
+      border: 2px solid transparent;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(121, 101, 145, 0.09);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .mood-button:hover {
+      transform: translateY(-3px);
+    }
+
+    .mood-button:focus-visible {
+      outline: 3px solid rgba(112, 93, 125, 0.3);
+      outline-offset: 3px;
+    }
+
+    .mood-button[aria-pressed="true"] {
+      background: #f7f2ff;
+      border-color: #c9c2f5;
+    }
+
+    .mood-message {
+      min-height: 29px;
+      margin: 20px 0 0;
+      color: #705d7d;
+      font-weight: 600;
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -100,6 +148,29 @@
         <li>🌿 천천히 걸으며 새로운 풍경 발견하기</li>
       </ul>
     </section>
+
+    <section class="mood" aria-labelledby="mood-title">
+      <h2 id="mood-title">오늘의 기분</h2>
+      <div class="mood-buttons" aria-label="오늘의 기분 선택">
+        <button class="mood-button" type="button" data-message="오늘의 설렘이 멋진 순간으로 이어질 거예요!" aria-label="신나는 기분" aria-pressed="false">😊</button>
+        <button class="mood-button" type="button" data-message="잠시 쉬어가도 괜찮아요. 지금도 충분히 잘하고 있어요." aria-label="지친 기분" aria-pressed="false">😮‍💨</button>
+        <button class="mood-button" type="button" data-message="마음이 흐린 날도 지나가요. 곁에서 다정하게 응원할게요." aria-label="속상한 기분" aria-pressed="false">🥺</button>
+      </div>
+      <p class="mood-message" aria-live="polite">지금 기분과 닮은 이모지를 골라보세요.</p>
+    </section>
   </main>
+
+  <script>
+    const moodButtons = document.querySelectorAll(".mood-button");
+    const moodMessage = document.querySelector(".mood-message");
+
+    moodButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        moodButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+        button.setAttribute("aria-pressed", "true");
+        moodMessage.textContent = button.dataset.message;
+      });
+    });
+  </script>
 </body>
 </html>
