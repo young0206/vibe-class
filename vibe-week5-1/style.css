@@ -1,0 +1,126 @@
+:root {
+  color-scheme: light;
+  font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  color: #4b2e20;
+  background: #fff4df;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 183, 94, 0.3), transparent 28%),
+    radial-gradient(circle at 85% 80%, rgba(239, 133, 73, 0.2), transparent 30%),
+    #fff4df;
+}
+
+.menu-card {
+  width: min(100%, 480px);
+  padding: 48px 36px 40px;
+  text-align: center;
+  background: rgba(255, 252, 244, 0.94);
+  border: 1px solid #f1d2a9;
+  border-radius: 28px;
+  box-shadow: 0 20px 50px rgba(127, 70, 29, 0.14);
+}
+
+.icon {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  background: #ffe2b8;
+  border-radius: 50%;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #d66a2d;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 6vw, 2.55rem);
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+}
+
+.description {
+  margin: 14px auto 30px;
+  color: #856452;
+  line-height: 1.7;
+}
+
+.result-box {
+  min-height: 126px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px;
+  background: #fff1d9;
+  border: 2px dashed #eab878;
+  border-radius: 18px;
+}
+
+.result-label {
+  color: #9b765d;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+#menu-result {
+  color: #bd4d19;
+  font-size: 1.6rem;
+}
+
+button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px 24px;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  background: #ed7b3a;
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 8px 0 #bf5424;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+button:hover {
+  background: #df682b;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 0 #bf5424;
+}
+
+button:active {
+  transform: translateY(5px);
+  box-shadow: 0 3px 0 #bf5424;
+}
+
+button:focus-visible {
+  outline: 4px solid rgba(237, 123, 58, 0.3);
+  outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+  .menu-card {
+    padding: 38px 24px 30px;
+    border-radius: 22px;
+  }
+}
