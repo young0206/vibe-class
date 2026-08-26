@@ -125,6 +125,16 @@
       border-color: #c9c2f5;
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .mood-button {
+        transition: none;
+      }
+
+      .mood-button:hover {
+        transform: none;
+      }
+    }
+
     .mood-message {
       min-height: 29px;
       margin: 20px 0 0;
